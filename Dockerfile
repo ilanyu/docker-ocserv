@@ -1,4 +1,4 @@
-FROM resin/raspberrypi3-alpine:3.6
+FROM alpine:3.6
 
 MAINTAINER ilanyu <lanyu19950316@gmail.com>
 
