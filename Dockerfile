@@ -52,7 +52,8 @@ COPY ocserv-script-udp-broadcast-relay.sh /usr/bin/ocserv-script-udp-broadcast-r
 COPY docker-entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /usr/bin/ocserv-script-udp-broadcast-relay.sh && \
-    chmod a+x /entrypoint.sh
+    chmod a+x /entrypoint.sh && \
+    chmod a+x /usr/bin/frpc
 
 ENTRYPOINT ["/entrypoint.sh"]
 
