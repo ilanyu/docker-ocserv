@@ -50,6 +50,10 @@ COPY frpc /usr/bin/frpc
 COPY frpc_full.ini /etc/frp/frpc_full.ini
 COPY ocserv-script-udp-broadcast-relay.sh /usr/bin/ocserv-script-udp-broadcast-relay.sh
 COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN chmod a+x /usr/bin/ocserv-script-udp-broadcast-relay.sh && \
+    chmod a+x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 4443
