@@ -2,7 +2,7 @@ FROM alpine:3.6
 
 MAINTAINER ilanyu <lanyu19950316@gmail.com>
 
-RUN apk add --update --no-cache curl musl-dev iptables libev openssl gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev gnutls-utils gpgme libseccomp-dev linux-headers linux-pam-dev libev-dev readline-dev bash
+RUN apk add --update --no-cache curl musl-dev iptables libev openssl gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev gnutls-utils gpgme libseccomp-dev linux-headers linux-pam-dev libev-dev readline-dev bash tzdata
 
 RUN buildDeps="xz tar openssl gcc autoconf make g++ git"; \
 	set -x \
