@@ -64,6 +64,13 @@ fi
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv6.conf.all.forwarding=1
 
+sysctl -w net.core.rmem_max=67108864
+sysctl -w net.core.wmem_max=67108864
+sysctl -w net.ipv4.tcp_rmem="4096 87380 33554432"
+sysctl -w net.ipv4.tcp_wmem="4096 65536 33554432"
+sysctl -w net.core.netdev_max_backlog=30000
+sysctl -w net.ipv4.tcp_mtu_probing=1
+
 # Enable NAT forwarding
 iptables -t nat -A POSTROUTING -j MASQUERADE
 iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
