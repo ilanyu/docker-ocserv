@@ -60,26 +60,6 @@ if [ ! -f /etc/ocserv/certs/server-key.pem ] || [ ! -f /etc/ocserv/certs/server-
 	fi
 fi
 
-if [ -z "$server_addr" ]; then
-	server_addr=0.0.0.0
-fi
-if [ -z "$server_port" ]; then
-	server_port=7000
-fi
-if [ -z "$privilege_token" ]; then
-	privilege_token=12345678
-fi
-if [ -z "$login_fail_exit" ]; then
-	login_fail_exit=true
-fi
-
-sed -i 's/server_addr = 0.0.0.0/server_addr = '$server_addr'/' /etc/frp/frpc_full.ini
-sed -i 's/server_port = 7000/server_port = '$server_port'/' /etc/frp/frpc_full.ini
-sed -i 's/privilege_token = 12345678/privilege_token = '$privilege_token'/' /etc/frp/frpc_full.ini
-sed -i 's/login_fail_exit = true/login_fail_exit = '$login_fail_exit'/' /etc/frp/frpc_full.ini
-
-frpc -c /etc/frp/frpc_full.ini &
-
 # Open ipv4 ip forward
 sysctl -w net.ipv4.ip_forward=1
 

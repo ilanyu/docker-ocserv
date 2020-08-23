@@ -1,17 +1,17 @@
-FROM alpine:3.6
+FROM alpine
 
 MAINTAINER ilanyu <lanyu19950316@gmail.com>
 
-RUN apk add --update --no-cache curl musl-dev iptables libev openssl gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev gnutls-utils gpgme libseccomp-dev linux-headers linux-pam-dev libev-dev readline-dev bash tzdata
+RUN apk add --update --no-cache curl musl-dev iptables libev openssl gnutls-dev readline-dev libnl3-dev lz4-dev libseccomp-dev gnutls-utils gpgme libseccomp-dev linux-headers linux-pam-dev libev-dev readline-dev tzdata
 
 RUN buildDeps="xz tar openssl gcc autoconf make g++ git"; \
 	set -x \
 	&& apk add $buildDeps \
 	&& cd \
-	&& wget ftp://ftp.infradead.org/pub/ocserv/ocserv-0.11.9.tar.xz \
-	&& tar xJf ocserv-0.11.9.tar.xz \
-	&& rm -fr ocserv-0.11.9.tar.xz \
-	&& cd ocserv-0.11.9 \
+	&& wget ftp://ftp.infradead.org/pub/ocserv/ocserv-1.1.0.tar.xz \
+	&& tar xJf ocserv-1.1.0.tar.xz \
+	&& rm -fr ocserv-1.1.0.tar.xz \
+	&& cd ocserv-1.1.0 \
 	&& sed -i '/#define DEFAULT_CONFIG_ENTRIES /{s/96/200/}' src/vpn.h \
 	&& ./configure \
 	&& make \
@@ -19,7 +19,7 @@ RUN buildDeps="xz tar openssl gcc autoconf make g++ git"; \
 	&& mkdir -p /etc/ocserv \
 	&& cp ./doc/sample.config /etc/ocserv/ocserv.conf \
 	&& cd \
-	&& rm -fr ./ocserv-0.11.9 \
+	&& rm -fr ./ocserv-1.1.0 \
 	&& git clone https://github.com/nomeata/udp-broadcast-relay.git \
 	&& cd udp-broadcast-relay \
 	&& make \
@@ -42,18 +42,13 @@ RUN set -x \
 	&& sed -i 's/#connect-script = \/usr\/bin\/myscript/connect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#disconnect-script = \/usr\/bin\/myscript/disconnect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf
 
-RUN mkdir -p /etc/frp/
-
 WORKDIR /etc/ocserv
 
-COPY frpc /usr/bin/frpc
-COPY frpc_full.ini /etc/frp/frpc_full.ini
 COPY ocserv-script-udp-broadcast-relay.sh /usr/bin/ocserv-script-udp-broadcast-relay.sh
 COPY docker-entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /usr/bin/ocserv-script-udp-broadcast-relay.sh && \
-    chmod a+x /entrypoint.sh && \
-    chmod a+x /usr/bin/frpc
+    chmod a+x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
