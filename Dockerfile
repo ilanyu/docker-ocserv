@@ -38,6 +38,8 @@ RUN set -x \
 	&& sed -i '/^ipv4-network = /{s/192.168.1.0/10.9.0.0/}' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/192.168.1.2/114.114.114.114/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
+	&& sed -i 's#server-cert = /etc/ocserv/certs/server-cert-secp521r1.pem#server-cert = /etc/ocserv/certs/server-cert.pem#' /etc/ocserv/ocserv.conf \
+	&& sed -i 's#server-key = /etc/ocserv/certs/server-key-secp521r1.pem#server-key = /etc/ocserv/certs/server-key.pem#' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#connect-script = \/usr\/bin\/myscript/connect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's/#disconnect-script = \/usr\/bin\/myscript/disconnect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf
