@@ -20,12 +20,6 @@ RUN buildDeps="xz tar openssl gcc autoconf make g++ git"; \
 	&& cp ./doc/sample.config /etc/ocserv/ocserv.conf \
 	&& cd \
 	&& rm -fr ./ocserv-1.1.0 \
-	&& git clone https://github.com/nomeata/udp-broadcast-relay.git \
-	&& cd udp-broadcast-relay \
-	&& make \
-	&& cp ./udp-broadcast-relay /usr/bin/udp-broadcast-relay \
-	&& cd \
-	&& rm -fr ./udp-broadcast-relay \
 	&& apk del --purge $buildDeps
 
 RUN set -x \
@@ -40,17 +34,13 @@ RUN set -x \
 	&& sed -i 's/^route/#route/' /etc/ocserv/ocserv.conf \
 	&& sed -i 's#server-cert = /etc/ocserv/certs/server-cert-secp521r1.pem#server-cert = /etc/ocserv/certs/server-cert.pem#' /etc/ocserv/ocserv.conf \
 	&& sed -i 's#server-key = /etc/ocserv/certs/server-key-secp521r1.pem#server-key = /etc/ocserv/certs/server-key.pem#' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/#connect-script = \/usr\/bin\/myscript/connect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf \
-	&& sed -i 's/#disconnect-script = \/usr\/bin\/myscript/disconnect-script = \/usr\/bin\/ocserv-script-udp-broadcast-relay.sh/' /etc/ocserv/ocserv.conf
+	&& sed -i 's/^no-route/#no-route/' /etc/ocserv/ocserv.conf
 
 WORKDIR /etc/ocserv
 
-COPY ocserv-script-udp-broadcast-relay.sh /usr/bin/ocserv-script-udp-broadcast-relay.sh
 COPY docker-entrypoint.sh /entrypoint.sh
 
-RUN chmod a+x /usr/bin/ocserv-script-udp-broadcast-relay.sh && \
-    chmod a+x /entrypoint.sh
+RUN chmod a+x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 

@@ -1,9 +1,6 @@
-# rpi-ocserv
-ocserv on raspberrypi
+# docker-ocserv
 
-## environment variables
-
-BCPort -> UDP broadcast port
+ocserv
 
 ## Use:
 
@@ -13,7 +10,7 @@ Get the docker image:
 
 Start an ocserv instance:
 
-	docker run --restart=always --name ocserv --privileged -p 4443:4443 -p 4443:4443/udp -e "BCPort=3801" -e "TZ=Asia/Chongqing" -d ilanyu/ocserv
+	docker run --restart=always --name ocserv --privileged -p 4443:4443 -p 4443:4443/udp -e "TZ=Asia/Chongqing" -d ilanyu/ocserv
 
 Add user:
 
